@@ -1,10 +1,15 @@
 import React, { useContext, useCallback, useState,FormEvent} from 'react';
+import Head from 'next/head';
+
+
+import CircularProgress from '@mui/material/CircularProgress';
 
 import { AuthContext } from '../../context/AuthContext';
-import waves from '../../img/waves.svg';
-import styles from './styles.module.scss';
 import Input from '../../components/input';
 import Button from '../../components/button';
+
+import { Container, Content, SignIn, ForgotPassword } from './styles';
+
 
 interface LoginProps {
   [email: string]: string;
@@ -13,30 +18,44 @@ interface LoginProps {
 
 export default function Login() {
   const [loginData, setLoginData] = useState<LoginProps>({ email: '', password: '' });
+  const [loading, setLoading] = useState(false);
   const { signIn } = useContext(AuthContext);
 
+
   const handleChange = useCallback((e: FormEvent<HTMLInputElement>) => {
-    const value = e.currentTarget.value;
-    const key = e.currentTarget.name;
+    const { value, name } = e.currentTarget;
     const newLoginData: LoginProps = loginData;
 
-    newLoginData[key] = value;
+    newLoginData[name] = value;
 
     setLoginData(newLoginData);
   }, [loginData]);
 
+
   const handleSubmit = useCallback(async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(typeof(signIn));
+    
+    setLoading(true);
+    
+    signIn(loginData);
+
+    setLoading(false);
   }, []);
 
+
+
   return(
-    <div className={styles.container}>
-      <form className={styles.content} onSubmit={handleSubmit}>  
-        <div className={styles.signin}>
+    <>
+    <Container>
+      <Head>
+        <title>Login</title>
+      </Head>
+      
+      <Content onSubmit={handleSubmit}>  
+        <SignIn>
           <h1>Sign in</h1>
           <span>Entre e procure serviços que necessite</span>
-        </div>
+        </SignIn>
 
         <Input 
           type='email' 
@@ -54,15 +73,15 @@ export default function Login() {
           required
         />
 
-        <div className={styles.forgotpassword}>
+        <ForgotPassword>
           <a href="">Esqueci minha senha</a>
-        </div>
+        </ForgotPassword>
 
-        <Button type='submit'>Login</Button>
-
-      </form>
-      
-      <img src={waves.src} className={styles.svg} alt="" />
-    </div>
+        <Button type='submit'>
+          { loading ?<CircularProgress/> :'Login' }
+        </Button>
+      </Content>
+    </Container>
+    </>
   );
 }

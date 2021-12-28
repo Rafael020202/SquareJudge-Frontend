@@ -34,3 +34,12 @@ button, a {
   cursor: pointer;
 }
 
+.CodeMirror {
+  height: 100% !important;
+}
+
+.react-codemirror2 {
+  height: 95% !important;
+  flex: 1;
+}
+

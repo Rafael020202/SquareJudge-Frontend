@@ -1,22 +1,27 @@
 import React, { createContext, useCallback, useState } from 'react';
+import { useRouter } from 'next/router';
+import cookieCutter from 'cookie-cutter'
 import sweetalert from 'sweetalert';
 
+import { User } from '../config/constants';
 import api from '../services/api';
 
 interface AuthState {
   token: string;
-  user: object;
+  user: User;
 }
 
 interface AuthContextData {
-  user: object;
+  user: User;
   signIn: Function;
   signOut: Function;
+  token: string;
 }
 
 export const AuthContext = createContext<AuthContextData>( {} as AuthContextData );
 
 export const AuthProvider: React.FC = ({ children }) => {
+
 
   const handleLocalStorage = (action:string, key:string, data?:string) => {
     const client = typeof(window) !== 'undefined';
@@ -31,8 +36,10 @@ export const AuthProvider: React.FC = ({ children }) => {
     }
 
   }
-  
-  const [ data, setData ] = useState<AuthState>(() => {
+
+  const router = useRouter();
+
+  const [data, setData] = useState<AuthState>(() => {
     const token = handleLocalStorage('getItem', '@EService:token');
     const user = handleLocalStorage('getItem', '@EService:user');
 
@@ -43,7 +50,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     return {} as AuthState;
   });
 
-  const signIn = useCallback(async ( { email, password } ) => {
+  const signIn = useCallback( async ( { email, password } ) => {
    
     try {
       const response = await api.post('/session', {
@@ -55,25 +62,30 @@ export const AuthProvider: React.FC = ({ children }) => {
       handleLocalStorage('setItem','@EService:user', JSON.stringify(response.data.user));
 
       setData(response.data);
+      
+      cookieCutter.set('token', response.data.token);
+      cookieCutter.set('uid', response.data.user.id);
+
+      router.push('/');
     }
     catch(e) {
       sweetalert({
         title: "Error!!",
-        text: 'ERRO!!!!',
+        text: e.response.data.message,
         icon: "error",
       });
     }
   }, []);
 
   const signOut = useCallback(() => {
-    //localStorage.removeItem('@EService:token');
-    //localStorage.removeItem('@EService:token');
+    localStorage.removeItem('@EService:token');
+    localStorage.removeItem('@EService:token');
 
     setData({} as AuthState);
   }, []);
 
   return(
-    <AuthContext.Provider value={ { user: data.user, signIn, signOut } }>
+    <AuthContext.Provider value={ { user: data.user, signIn, signOut, token: data.token } }>
       {children}
     </AuthContext.Provider>
   );

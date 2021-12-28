@@ -1,8 +1,25 @@
+import React from 'react';
+import Head from 'next/head';
 
-export default function Home() {
+import { withAuth } from '../components/hoc';
+import Container from '../components/container';
+
+
+const Home: React.FC = () => {
+  
   return (
-    <div>
-      <h1>Teste</h1>
-    </div>
+    <>
+      <Head>
+        <title>Home</title>
+      </Head>
+
+      <Container>
+        <h1>Teste</h1>
+      </Container>
+    </>
   )
 }
+
+export default withAuth(Home);
+
+
