@@ -9,15 +9,26 @@ const Main: React.FC = ({children}) => {
             component="main"
             sx={{ 
                 flexGrow: 1, 
-                p: 2, 
+                p: 5, 
                 width: { sm: `calc(100% - ${drawerWidth}px)` }, 
-                height:  `calc(100vh - ${56}px)`,
+                height:  `100vh`,
                 marginLeft: 'auto',
-                backgroundColor: '#fff'
+                backgroundColor: '#ededed',
+                overflowY: 'auto'
             }}
         >
-            <Toolbar />
-            {children}
+             <Box
+                sx={{ 
+                    p: 2, 
+                    marginLeft: 'auto',
+                    marginTop: '50px',
+                    backgroundColor: '#fff',
+                    borderRadius: '10px'
+                }}
+            >
+                {/*<Toolbar />*/}
+                {children}
+            </Box>
         </Box>
     );
 }

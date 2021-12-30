@@ -4,7 +4,7 @@ export const darkTheme = createTheme({
     palette: {
       mode: 'light',
       primary: { 
-        main: '#343434'
+        main: '#fff'
       }
     },
 
@@ -12,10 +12,10 @@ export const darkTheme = createTheme({
       MuiPaper: {
         styleOverrides: {
           root: {
-            backgroundColor: '#343434',
-            color: '#fff',
+            backgroundColor: '#fff',
+            color: '#343434',
             svg: {
-              color: '#fff'
+              color: '#6eb2ff'
             }
           },
         }
@@ -28,5 +28,21 @@ export const darkTheme = createTheme({
           }
         }
       },
+
+      MuiCardHeader: {
+        styleOverrides: {
+          root: {
+            backgroundColor: '#ededed',
+          }
+        }
+      },
+
+      MuiCard: {
+        styleOverrides: {
+          root: {
+            textAlign: 'center'
+          }
+        }
+      }
     }
   });

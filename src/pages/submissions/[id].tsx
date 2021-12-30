@@ -12,11 +12,13 @@ import {
     TableBody,
     Box,
     Button,
-    Grid
+    Card,
+    Grid,
+    CardHeader,
+    CardContent
 } from '@mui/material';
 import { CheckCircleOutline, DangerousOutlined } from '@mui/icons-material';
 
-import Card from '../../components/card';
 import Container from '../../components/container';
 import { withAuth } from '../../components/hoc';
 
@@ -51,25 +53,31 @@ const Submission: React.FC<Props> = ({submission}) => {
             <Grid container spacing={1} mt={2} mb={3}>
                 <Grid item xs={12} md={4}>
                     <Card>
-                        <Typography variant='subtitle1'>Tempo</Typography>
-                        <Typography variant='h2'>{submission.time}s</Typography>
+                        <CardHeader title='Tempo'/>
+                        <CardContent>
+                            <Typography variant='h2'>{submission.time}s</Typography>
+                        </CardContent>
                     </Card>
                 </Grid>
 
                 <Grid item xs={12} md={4}>
                     <Card>
-                        <Typography variant='subtitle1'>Memória</Typography>
-                        <Typography variant='h2'>{submission.memory}kb</Typography>
+                        <CardHeader title='Memória'/>
+                        <CardContent>
+                            <Typography variant='h2'>{submission.memory}kb</Typography>
+                        </CardContent>
                     </Card>
                 </Grid>
 
                 <Grid item xs={12} md={4}>
                     <Card>
-                        <Typography variant='subtitle1'>Status</Typography>
-                        <Typography variant='h2' color={submission.status === 'accepted' ?'#43a047' :'#FF003C'}>
-                            {submission.status === 'accepted'   ?<CheckCircleOutline fill='#43a047'/> 
-                                                                :<DangerousOutlined fill='#FF003C'/>}
-                        </Typography>
+                        <CardHeader title='Status'/>
+                        <CardContent sx={{ svg:{ color: `${submission.status === 'accepted' ?'#43a047' :'#FF003C'}` } }}>
+                            <Typography variant='h2'>
+                                {submission.status === 'accepted'   ?<CheckCircleOutline fill='#43a047' fontSize='inherit'/> 
+                                                                    :<DangerousOutlined fill='#FF003C'/>}
+                            </Typography>
+                        </CardContent>
                     </Card>
                 </Grid>
             </Grid>

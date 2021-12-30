@@ -42,7 +42,7 @@ export const gridStyles = {
 	headCells: {
 		style: {
 			color: '#202124',
-			fontSize: '14px',
+			fontSize: '20px',
 		},
 	},
 
@@ -53,7 +53,12 @@ export const gridStyles = {
 			borderRadius: '25px',
 			outline: '1px solid #FFFFFF',
 		},
-        center: true
+    
+    center: true,
+
+    style: {
+			fontSize: '16px',
+		},
 	},
 
 	pagination: {
